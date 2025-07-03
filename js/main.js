@@ -1,40 +1,8 @@
-// Función para calcular total a pagar
-function calcularPrestamo(monto, cuotas) {
-  let interesTotal = monto * INTERES;
-  let total = monto + interesTotal;
-  let valorCuota = total / cuotas;
-
-  return {
-    total,
-    valorCuota
-  };
-}
-  let usuario = solicitarDatos();
-
-  let monto = parseFloat(prompt("¿Cuánto dinero deseas solicitar?"));
-  while (isNaN(monto) || monto <= 0) {
-    monto = parseFloat(prompt("Por favor, ingresa un monto válido mayor a 0:"));
-  }
-
-  let cuotas = parseInt(prompt("¿En cuántas cuotas deseas pagar? (3, 6 o 12)"));
-  while (!cuotasDisponibles.includes(cuotas)) {
-    cuotas = parseInt(prompt("Cantidad de cuotas no válida.\nPor favor, elige entre 3, 6 o 12 cuotas:"));
-  }
-
-  let resultado = calcularPrestamo(monto, cuotas);
-  mostrarResultados(usuario, monto, cuotas, resultado.total, resultado.valorCuota);
-
-  let repetir = confirm("¿Deseas hacer otra simulación?");
-  if (repetir) {
-    iniciarSimulador();
-  } else {
-    alert("¡Gracias por usar el simulador!");
-  }
 // Constantes
 const INTERES = 0.25;
-let cuotasDisponibles = [3, 6, 12];
+const cuotasDisponibles = [3, 6, 12];
 
-// Calculadora de préstamo
+// Función para calcular total a pagar
 function calcularPrestamo(monto, cuotas) {
   let interesTotal = monto * INTERES;
   let total = monto + interesTotal;
@@ -98,11 +66,16 @@ document.getElementById("form-simulador").addEventListener("submit", function (e
   const resultado = calcularPrestamo(monto, cuotas);
   mostrarResultados(nombre, monto, cuotas, resultado.total, resultado.valorCuota);
 
-  const simulacion = { nombre, monto, cuotas, total: resultado.total, valorCuota: resultado.valorCuota };
+  const simulacion = {
+    nombre,
+    monto,
+    cuotas,
+    total: resultado.total,
+    valorCuota: resultado.valorCuota
+  };
+
   guardarEnHistorial(simulacion);
   actualizarHistorial();
 
   this.reset(); // Limpiar formulario
 });
-
-
