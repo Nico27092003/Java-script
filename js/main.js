@@ -14,7 +14,7 @@ function calcularPrestamo(monto, cuotas) {
   };
 }
 
-// Mostrar resultados en el DOM
+// Mostrar resultados en el DOM con SweetAlert2
 function mostrarResultados(nombre, monto, cuotas, total, cuotaMensual) {
   const resultadoDiv = document.getElementById("resultado");
   resultadoDiv.innerHTML = `
@@ -25,6 +25,13 @@ function mostrarResultados(nombre, monto, cuotas, total, cuotaMensual) {
     <p><strong>Total a pagar:</strong> $${total.toFixed(2)}</p>
     <p><strong>Valor por cuota:</strong> $${cuotaMensual.toFixed(2)}</p>
   `;
+
+  Swal.fire({
+    title: "Simulación exitosa",
+    text: `Préstamo calculado para ${nombre}`,
+    icon: "success",
+    confirmButtonText: "Aceptar"
+  });
 }
 
 // Guardar en localStorage
@@ -59,7 +66,12 @@ document.getElementById("form-simulador").addEventListener("submit", function (e
   const cuotas = parseInt(document.getElementById("cuotas").value);
 
   if (!nombre || isNaN(monto) || monto <= 0 || !cuotasDisponibles.includes(cuotas)) {
-    document.getElementById("resultado").innerHTML = `<p style="color: red;">Por favor, completá todos los campos correctamente.</p>`;
+    Swal.fire({
+      title: "Error en los datos",
+      text: "Completá todos los campos correctamente.",
+      icon: "error",
+      confirmButtonText: "OK"
+    });
     return;
   }
 
@@ -76,6 +88,5 @@ document.getElementById("form-simulador").addEventListener("submit", function (e
 
   guardarEnHistorial(simulacion);
   actualizarHistorial();
-
-  this.reset(); // Limpiar formulario
+  this.reset();
 });
